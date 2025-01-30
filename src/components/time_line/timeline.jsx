@@ -33,6 +33,9 @@ class Timeline extends Component {
     render() {
         const { curIdx } = this.state;
 
+        // Calculate percentage width of the colored section of the bar
+        const progressWidth = (curIdx / (ParentGazette.length - 1)) * 100;
+
         return (
             <div style={{
                 width: "100%",
@@ -43,15 +46,16 @@ class Timeline extends Component {
             }}>
                 {/* Timeline */}
                 <div style={{ position: "relative", height: "150px" }}>
-                    {/* Horizontal line */}
+                    {/* Horizontal line with progressive color */}
                     <div style={{
                         position: "absolute",
                         left: "0",
                         right: "0",
                         top: "45px",
                         height: "4px",
-                        background: "linear-gradient(to right, #1A79AD, #2196F3)",
-                        borderRadius: "2px"
+                        background: `linear-gradient(to right, #1A79AD ${progressWidth}%, #e0e0e0 ${progressWidth}%)`,
+                        borderRadius: "2px",
+                        transition: "all 0.3s ease"
                     }} />
 
                     {/* Navigation Arrows */}
@@ -101,13 +105,17 @@ class Timeline extends Component {
                                     {this.formatDate(item.date)}
                                 </div>
 
-                                {/* Dot */}
-                                <div style={{
-                                    ...dotStyle,
-                                    backgroundColor: curIdx >= index ? "#1A79AD" : "#e0e0e0",
-                                    border: curIdx === index ? "3px solid #1A79AD" : "none",
-                                    boxShadow: curIdx === index ? "0 0 8px rgba(0, 0, 0, 0.1)" : "none"
-                                }} />
+                                {/* Clickable Dot */}
+                                <div
+                                    onClick={() => this.setState({ curIdx: index })}
+                                    style={{
+                                        ...dotStyle,
+                                        backgroundColor: curIdx >= index ? "#1A79AD" : "#e0e0e0",
+                                        border: curIdx === index ? "3px solid #1A79AD" : "none",
+                                        boxShadow: curIdx === index ? "0 0 8px rgba(0, 0, 0, 0.1)" : "none",
+                                        cursor: "pointer"
+                                    }}
+                                />
 
                                 {/* Ministry Title */}
                                 <div style={{
@@ -135,10 +143,6 @@ const buttonStyle = {
     cursor: "pointer",
     fontSize: "20px",
     transition: "all 0.3s ease",
-    "&:hover": {
-        backgroundColor: "#1A79AD",
-        color: "white"
-    }
 };
 
 const timelineItemStyle = {

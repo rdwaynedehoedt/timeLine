@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 
 const ParentGazette = [
-    { date: "2010-April-30" },
-    { date: "2015-January-10" },
-    { date: "2020-Aug-09" },
-    { date: "2022-July-22" },
+    { date: "2010-April-30", minister: "Minister 1" },
+    { date: "2015-January-10", minister: "Minister 2" },
+    { date: "2020-Aug-09", minister: "Minister 3" },
+    { date: "2022-July-22", minister: "Minister 4" },
 ];
 
 class Timeline extends Component {
     constructor(props) {
         super(props);
-        this.state = { curIdx: 0 };
+        this.state = { curIdx: 0 }; // Start with an integer index
     }
 
     formatDate = (dateString) => {
@@ -32,18 +32,10 @@ class Timeline extends Component {
 
     render() {
         const { curIdx } = this.state;
-
-        // Calculate percentage width of the colored section of the bar
         const progressWidth = (curIdx / (ParentGazette.length - 1)) * 100;
 
         return (
-            <div style={{
-                width: "100%",
-                margin: "0",
-                padding: "20px",
-                borderRadius: "12px",
-                position: "relative"
-            }}>
+            <div style={{ width: "100%", margin: "0", padding: "20px", borderRadius: "12px", position: "relative" }}>
                 {/* Timeline */}
                 <div style={{ position: "relative", height: "150px" }}>
                     {/* Horizontal line with progressive color */}
